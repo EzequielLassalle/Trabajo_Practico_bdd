@@ -28,7 +28,7 @@ def handle_crud_operation(model, model_type, request, pk=None, operation='get'):
             elif operation == 'delete':
                 dato = model.objects.get(pk=pk)
                 dato.delete()
-                return {'message': 'Producto eliminado correctamente'}
+                return {'message': 'Nota de alumno eliminada correctamente'}
         
         elif model_type == 'nosql':
             nosql_handler = DatosNoSQL(model)
@@ -79,7 +79,7 @@ def handle_crud_operation(model, model_type, request, pk=None, operation='get'):
             elif operation == 'delete':
                 nosql_handler = DatosNoSQL(model)
                 nosql_handler.delete(pk)
-                return {'message': 'Producto eliminado correctamente'}
+                return {'message': 'Nota de alumno eliminada correctamente'}
     
     except Exception as e:
         raise
@@ -105,7 +105,7 @@ def obtener_producto(request, pk):
             'valor': str(dato.valor)
         })
     except Datos.DoesNotExist:
-        return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+        return JsonResponse({'error': 'Alumno no encontrado'}, status=404)
 
 @csrf_exempt  
 @require_http_methods(["POST"])
@@ -123,7 +123,7 @@ def actualizar_producto(request, pk):
         data = handle_crud_operation(Datos, 'sql', request, pk=pk, operation='update')
         return JsonResponse(data)
     except Datos.DoesNotExist:
-        return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+        return JsonResponse({'error': 'Alumno no encontrado'}, status=404)
     except KeyError:
         return JsonResponse({'error': 'Faltan datos'}, status=400)
 
@@ -134,7 +134,7 @@ def eliminar_producto(request, pk):
         data = handle_crud_operation(Datos, 'sql', request, pk=pk, operation='delete')
         return JsonResponse(data)
     except Datos.DoesNotExist:
-        return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+        return JsonResponse({'error': 'Alumno no encontrado'}, status=404)
 
 def index(request):
     return render(request, 'templates/app/index.html')
@@ -155,7 +155,7 @@ def obtener_producto_nosql(request, pk):
     try:
         dato = handle_crud_operation(settings.MONGO_DATABASE['datos'], 'nosql', request, pk=pk, operation='get')
         if dato is None:
-            return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+            return JsonResponse({'error': 'Alumno no encontrado'}, status=404)
         return JsonResponse(dato)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -177,7 +177,7 @@ def actualizar_producto_nosql(request, pk):
     try:
         data = handle_crud_operation(settings.MONGO_DATABASE['datos'], 'nosql', request, pk=pk, operation='update')
         if data is None:
-            return JsonResponse({'error': 'Producto no encontrado'}, status=404)
+            return JsonResponse({'error': 'Alumno no encontrado'}, status=404)
         return JsonResponse(data)
     except KeyError:
         return JsonResponse({'error': 'Faltan datos'}, status=400)

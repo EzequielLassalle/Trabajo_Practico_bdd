@@ -58,11 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     
         if (response.ok) {
-            alert("Producto agregado exitosamente");
+            alert("Nota de alumno agregado exitosamente");
             obtenerDatos();
             formCreateRelacional.reset();
         } else {
-            alert("Error al agregar producto");
+            alert("Error al agregar nota");
         }
     });
 
@@ -101,12 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     
         if (response.ok) {
-            alert("Producto agregado exitosamente"); 
+            alert("Nota agregada exotisamente"); 
             obtenerDatosNoSQL();
             formCreateNoSQL.reset();
         } else {
             const errorResponse = await response.json();
-            alert(`Error al agregar producto: ${errorResponse.error}`);
+            alert(`Error al agregar nota de alumno: ${errorResponse.error}`);
         }
     });
 });
@@ -121,7 +121,7 @@ async function obtenerDatos() {
     productos.forEach((producto) => {
         const li = document.createElement("li");
         li.innerHTML = `
-            ${producto.nombre} - ${producto.descripcion} - $${producto.valor} 
+            ${producto.nombre} - ${producto.descripcion} - ${producto.valor}
             <button onclick="editarProductoRelacional(${producto.id}, '${producto.nombre}', '${producto.descripcion}', ${producto.valor})">Editar</button>
             <button onclick="eliminarProductoRelacional(${producto.id})">Eliminar</button>
         `;
@@ -140,7 +140,7 @@ async function obtenerDatosNoSQL() {
         const li = document.createElement("li");
         const metadataStr = JSON.stringify(producto.metadata || {});
         li.innerHTML = `
-            ${producto.nombre} - ${producto.descripcion} - $${producto.valor} 
+            ${producto.nombre} - ${producto.descripcion}  ${producto.valor} 
             <button onclick="editarProductoNoSQL('${producto._id}', '${producto.nombre}', '${producto.descripcion}', ${producto.valor}, '${encodeURIComponent(metadataStr)}')">Editar</button>
             <button onclick="eliminarProductoNoSQL('${producto._id}')">Eliminar</button>
         `;
@@ -196,11 +196,11 @@ formEditRelacional.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-        alert("Producto actualizado exitosamente");
+        alert("Nota de alumno actualizada exitosamente");
         cerrarModalRelacional();
         obtenerDatos();
     } else {
-        alert("Error al actualizar producto");
+        alert("Error al actualizar nota");
     }
 });
 
@@ -240,18 +240,18 @@ formEditNoSQL.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-        alert("Producto actualizado exitosamente");
+        alert("Nota actualizada exitosamente");
         document.getElementById("modal-editar-nosql").style.display = "none";
         obtenerDatosNoSQL();
     } else {
         const errorResponse = await response.json();
-        alert(`Error al actualizar producto: ${errorResponse.error}`);
+        alert(`Error al actualizar nota: ${errorResponse.error}`);
     }
 });
 
 // Eliminar un producto relacional
 async function eliminarProductoRelacional(id) {
-    if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+    if (confirm("¿Estás seguro de que quieres eliminar esta nota?")) {
         const response = await fetch(`${apiBaseUrl}/datos/${id}/eliminar/`, {
             method: "DELETE",
             headers: {
@@ -260,17 +260,17 @@ async function eliminarProductoRelacional(id) {
         });
 
         if (response.ok) {
-            alert("Producto eliminado correctamente");
+            alert("Nota eliminada correctamente");
             obtenerDatos();
         } else {
-            alert("Error al eliminar producto");
+            alert("Error al eliminar nota");
         }
     }
 }
 
 // Eliminar un producto NoSQL
 async function eliminarProductoNoSQL(id) {
-    if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+    if (confirm("¿Estás seguro de que quieres eliminar esta nota?")) {
         const response = await fetch(`${apiBaseUrl}/nosql/datos/${id}/eliminar/`, {
             method: "DELETE",
             headers: {
